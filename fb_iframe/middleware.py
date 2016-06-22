@@ -6,7 +6,7 @@ class FacebookMiddleware():
     def process_request(self, request):
 
         # Signed request found in either GET, POST or COOKIES...
-        if 'signed_request' in request.REQUEST or 'signed_request' in request.COOKIES:
+        if 'signed_request' in request.POST or 'signed_request' in request.COOKIES:
             
             # If the request method is POST and its body only contains the signed request,
             # chances are it's a request from the Facebook platform and we'll override
@@ -29,7 +29,7 @@ class FacebookMiddleware():
         browsers it is considered by IE before accepting third-party cookies (ie. cookies set by
         documents in iframes). If they are not set correctly, IE will not set these cookies.
         """
-        if 'signed_request' in request.REQUEST:
+        if 'signed_request' in request.POST:
             response.set_cookie('signed_request', request.REQUEST['signed_request'])
         response['P3P'] = 'CP="IDC CURa ADMa OUR IND PHY ONL COM STA"'
         return response
